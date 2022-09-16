@@ -63,46 +63,45 @@ export default function ForecastCards({forecast}) {
         style={styles.img}
       />
 
-      <View style={styles.row}>
-        <Text
-          style={[
-            styles.text,
-            {
-              color: daylist[today] === day ? 'white' : 'black',
-              fontWeight: 'bold',
-            },
-          ]}>
-          Max Temp
-        </Text>
-        <Text
-          style={[
-            styles.text,
-            {
-              color: daylist[today] === day ? 'white' : 'black',
-            },
-          ]}>
-          {forecast.day.maxtemp_c}&deg; C
-        </Text>
-        <Text
-          style={[
-            styles.text,
-            {
-              color: daylist[today] === day ? 'white' : 'black',
-              fontWeight: 'bold',
-            },
-          ]}>
-          Min Temp
-        </Text>
-        <Text
-          style={[
-            styles.text,
-            {
-              color: daylist[today] === day ? 'white' : 'black',
-            },
-          ]}>
-          {forecast.day.mintemp_c}&deg; C
-        </Text>
-      </View>
+      <Text
+        style={[
+          styles.text,
+          {
+            color: daylist[today] === day ? 'white' : 'black',
+            fontWeight: 'bold',
+          },
+        ]}>
+        Max Temp
+      </Text>
+      <Text
+        style={[
+          styles.text,
+          {
+            color: daylist[today] === day ? 'white' : 'black',
+          },
+        ]}>
+        {forecast.day.maxtemp_c}&deg; C
+      </Text>
+      <Text
+        style={[
+          styles.text,
+          {
+            color: daylist[today] === day ? 'white' : 'black',
+            fontWeight: 'bold',
+          },
+        ]}>
+        Min Temp
+      </Text>
+      <Text
+        style={[
+          styles.text,
+          {
+            color: daylist[today] === day ? 'white' : 'black',
+          },
+        ]}>
+        {forecast.day.mintemp_c}&deg; C
+      </Text>
+
       <Text
         style={[
           styles.text,
@@ -144,13 +143,5 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 20,
     marginBottom: 30,
-  },
-  row: {
-    flex: 1,
-    flexDirection: 'row',
-    marginTop: 10,
-    marginBottom: 50,
-    justifyContent: 'space-evenly',
-    width: Dimensions.get('window').width - 100,
   },
 });
