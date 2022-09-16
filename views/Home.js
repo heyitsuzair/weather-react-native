@@ -2,7 +2,7 @@ import {View, StyleSheet, ScrollView} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import CurrentWeather from '../components/CurrentWeather';
 import Geolocation from 'react-native-geolocation-service';
-import {PermissionsAndroid, Platform} from 'react-native';
+import {PermissionsAndroid, Platform, BackHandler, Alert} from 'react-native';
 import axios from 'axios';
 
 export default function Home() {
@@ -15,16 +15,32 @@ export default function Home() {
 
   //getting city using location iq api
   const getCity = async (latitude, longitude) => {
-    const url =
-      ' https://us1.locationiq.com/v1/reverse.php?key=pk.ef3482bef6f9010dc39b00224fd95bef&lat=' +
-      latitude +
-      '&lon=' +
-      longitude +
-      '&format=json';
-    await axios.get(url).then(res => {
-      const city = res.data.address.city;
-      setCity(city);
-    });
+    try {
+      const url =
+        ' https://us1.locationiq.com/v1/reverse.php?key=pk.ef3482bef6f9010dc39b00224fd95bef&lat=' +
+        latitude +
+        '&lon=' +
+        longitude +
+        '&format=json';
+      await axios.get(url).then(res => {
+        const city = res.data.address.city;
+        setCity(city);
+      });
+    } catch (error) {
+      Alert.alert(
+        'Error',
+        'Please Check Your Internet Connection!',
+        [
+          {
+            text: 'Exit',
+            onPress: () => BackHandler.exitApp(),
+          },
+        ],
+        {
+          cancelable: false,
+        },
+      );
+    }
   };
 
   // getting location
@@ -71,7 +87,7 @@ export default function Home() {
       <ScrollView>
         <View style={styles.main}>
           <CurrentWeather location={location} city={city} />
-          <CurrentWeather />
+          <CurrentWeather location={location} city={city} />
         </View>
       </ScrollView>
     </View>

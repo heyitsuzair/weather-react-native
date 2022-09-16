@@ -1,7 +1,15 @@
 import {View, Text, StyleSheet, TextInput} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 
-export default function CurrentWeather({city}) {
+export default function CurrentWeather({location, city}) {
+  const [weather, setWeather] = useState({
+    temp: '',
+    main: '',
+    wind: '',
+    humidity: '',
+    icon: '',
+  });
+
   const date = new Date();
   const hour = date.getHours();
   const minutes = date.getMinutes().toLocaleString();
@@ -54,11 +62,34 @@ export default function CurrentWeather({city}) {
 
   const formattedHour = hour > 12 ? hour - 12 : hour;
 
+  // getting weather info
+  const getWeather = async () => {
+    try {
+      const url = `https://api.openweathermap.org/data/2.5/weather?lat=${location.lat}&lon=${location.lon}&appid=0585d63af5210e9a1f194fac36d7b816`;
+      await axios.get(url).then(res => {
+        setWeather({
+          temp: Math.ceil(res.data.main.temp - 273),
+          main: res.data.weather[0].main,
+          wind: res.data.wind.speed,
+          humidity: res.data.main.humidity,
+          icon: res.data.weather[0].icon,
+        });
+      });
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <View style={styles.parent}>
       <View style={styles.city}>
         <Text style={styles.text}>Your City:</Text>
-        <TextInput value={city} style={styles.input} editable={false} />
+        <TextInput
+          value={city === '' ? 'Loading...' : city}
+          style={styles.input}
+          editable={false}
+        />
       </View>
       <View>
         <Text style={styles.date}>
@@ -73,7 +104,6 @@ export default function CurrentWeather({city}) {
 const styles = StyleSheet.create({
   parent: {
     backgroundColor: 'white',
-    flex: 1,
     margin: 20,
     borderRadius: 8,
     shadowColor: 'rgb(0 0 0 / 25%)',
