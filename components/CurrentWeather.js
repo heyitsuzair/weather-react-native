@@ -1,15 +1,14 @@
-import {View, Text, StyleSheet, TextInput} from 'react-native';
-import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Image,
+  Dimensions,
+} from 'react-native';
+import React from 'react';
 
-export default function CurrentWeather({location, city}) {
-  const [weather, setWeather] = useState({
-    temp: '',
-    main: '',
-    wind: '',
-    humidity: '',
-    icon: '',
-  });
-
+export default function CurrentWeather({city, weather}) {
   const date = new Date();
   const hour = date.getHours();
   const minutes = date.getMinutes().toLocaleString();
@@ -62,25 +61,6 @@ export default function CurrentWeather({location, city}) {
 
   const formattedHour = hour > 12 ? hour - 12 : hour;
 
-  // getting weather info
-  const getWeather = async () => {
-    try {
-      const url = `https://api.openweathermap.org/data/2.5/weather?lat=${location.lat}&lon=${location.lon}&appid=0585d63af5210e9a1f194fac36d7b816`;
-      await axios.get(url).then(res => {
-        setWeather({
-          temp: Math.ceil(res.data.main.temp - 273),
-          main: res.data.weather[0].main,
-          wind: res.data.wind.speed,
-          humidity: res.data.main.humidity,
-          icon: res.data.weather[0].icon,
-        });
-      });
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
     <View style={styles.parent}>
       <View style={styles.city}>
@@ -96,6 +76,31 @@ export default function CurrentWeather({location, city}) {
           {formattedHour} : {currentMin} {timeOfDay}, {today} - {monthName} -{' '}
           {year}
         </Text>
+      </View>
+      <View>
+        <Image
+          source={{
+            uri: `https://openweathermap.org/img/wn/${weather.icon}@2x.png`,
+            width: 200,
+            height: 150,
+          }}
+        />
+      </View>
+      <View>
+        <Text style={styles.weatherText}>{weather.temp}&deg; C</Text>
+      </View>
+      <View>
+        <Text style={styles.weatherText}>{weather.main}</Text>
+      </View>
+      <View style={styles.row}>
+        <View style={styles.column}>
+          <Text style={styles.humwind}>Humidity</Text>
+          <Text style={styles.humwind.text}>{weather.humidity}%</Text>
+        </View>
+        <View style={styles.column}>
+          <Text style={styles.humwind}>Wind</Text>
+          <Text style={styles.humwind.text}>{weather.wind} kmj</Text>
+        </View>
       </View>
     </View>
   );
@@ -122,7 +127,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   city: {
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 50,
@@ -138,5 +142,31 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     color: 'black',
     fontSize: 20,
+  },
+  weatherText: {
+    fontSize: 30,
+    fontWeight: '800',
+    color: 'black',
+    marginBottom: 20,
+  },
+  row: {
+    flexDirection: 'row',
+    marginTop: 10,
+    marginBottom: 10,
+    justifyContent: 'space-evenly',
+    width: Dimensions.get('window').width,
+  },
+  humwind: {
+    fontSize: 25,
+    textAlign: 'center',
+    text: {
+      fontSize: 22,
+      marginTop: 10,
+      color: 'black',
+    },
+  },
+  column: {
+    flexDirection: 'column',
+    alignItems: 'center',
   },
 });
