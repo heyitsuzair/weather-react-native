@@ -87,7 +87,7 @@ export default function CurrentWeather({city, weather}) {
         />
       </View>
       <View>
-        <Text style={styles.weatherText}>{weather.temp}&deg; C</Text>
+        <Text style={styles.weatherText}>{weather.temp} &deg; C</Text>
       </View>
       <View>
         <Text style={styles.weatherText}>{weather.main}</Text>

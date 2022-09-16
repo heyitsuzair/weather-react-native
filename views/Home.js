@@ -55,7 +55,7 @@ export default function Home() {
       //   show the alert
       Alert.alert(
         'Error',
-        'Something Went Wrong. Please Check Your Internet Connection And Try!',
+        'Something Went Wrong. Please Check Your Internet Connection And Try Again!',
         [
           {
             text: 'Exit',
@@ -111,7 +111,7 @@ export default function Home() {
       //   show the alert
       Alert.alert(
         'Error',
-        'Something Went Wrong. Please Check Your Internet Connection And Try!',
+        'Something Went Wrong. Please Check Your Internet Connection And Try Again!',
         [
           {
             text: 'Exit',
