@@ -1,13 +1,14 @@
 import {View, Text, StyleSheet, TextInput} from 'react-native';
 import React from 'react';
 
-export default function CurrentWeather() {
+export default function CurrentWeather({city}) {
   const date = new Date();
   const hour = date.getHours();
-  const minutes = date.getMinutes();
+  const minutes = date.getMinutes().toLocaleString();
   const today = date.getDate();
   const month = date.getMonth() + 1;
   const year = date.getFullYear();
+  const currentMin = (minutes < 10 ? '0' : '') + minutes;
 
   let monthName = '';
   switch (month) {
@@ -57,11 +58,11 @@ export default function CurrentWeather() {
     <View style={styles.parent}>
       <View style={styles.city}>
         <Text style={styles.text}>Your City:</Text>
-        <TextInput value="Lahore" style={styles.input} editable={false} />
+        <TextInput value={city} style={styles.input} editable={false} />
       </View>
       <View>
         <Text style={styles.date}>
-          {formattedHour} : {minutes} {timeOfDay}, {today} - {monthName} -{' '}
+          {formattedHour} : {currentMin} {timeOfDay}, {today} - {monthName} -{' '}
           {year}
         </Text>
       </View>
