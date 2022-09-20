@@ -72,7 +72,7 @@ export default function CurrentWeather({city, weather}) {
         />
       </View>
       <View>
-        <Text style={styles.date}>
+        <Text style={styles.date} adjustsFontSizeToFit numberOfLines={1}>
           {formattedHour} : {currentMin} {timeOfDay}, {today} - {monthName} -{' '}
           {year}
         </Text>
